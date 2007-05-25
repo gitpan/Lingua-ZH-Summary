@@ -4,7 +4,6 @@ use warnings;
 use strict;
 use utf8;
 
-use Data::Dumper::Simple;
 use Net::YASA;
 
 =head1 NAME
@@ -13,11 +12,11 @@ Lingua::ZH::Summary - Extract summary from Chinese text
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -97,7 +96,7 @@ sub summary {
     my $termset = $self->{yasa}->extract($text);
 
     # Get top 5
-    my @terms = map {s/\t.*//; $_;} ($termset->[0],$termset->[1],$termset->[2],$termset->[3],$termset->[4]);
+    my @terms = map {s/\t.*//; $_;} (@{$termset}[0..4]);
     $re = "(?:".join ("|",@terms).")";
 
     my $i=0;
@@ -167,7 +166,7 @@ L<http://search.cpan.org/dist/Lingua-ZH-Summary>
 
 =head1 ACKNOWLEDGEMENTS
 
-Modified from previous version by 
+Reference to the L<Lingua::ZH::Summary> module from
 Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
 =head1 COPYRIGHT & LICENSE

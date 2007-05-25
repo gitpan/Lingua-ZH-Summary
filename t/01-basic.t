@@ -10,7 +10,8 @@ require Lingua::ZH::Summary;
 ok($Lingua::ZH::Summary::VERSION) if $Lingua::ZH::Summary::VERSION or 1;
 
 my $summary = Lingua::ZH::Summary->new();
-like($summary->summary(do { local $/; <DATA> }), qr/紀念的是歷史哦。/);
+my $result = $summary->summary(do { local $/; <DATA> });
+like($result, qr/紀念的是歷史哦。/);
 
 __DATA__
 
