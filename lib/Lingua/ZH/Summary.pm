@@ -12,15 +12,15 @@ Lingua::ZH::Summary - Extract summary from Chinese text
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
-Give a Chinese text, it will return the summary. Unlike Lingua-ZH-Summarize, 
+Given a Chinese text, it will return the summary. Unlike Lingua-ZH-Summarize, 
 this module depends on term frequency instead of knowledge. If knowledge 
 analysis is required, use L<Lingua::ZH::Summarize> instead.
 
@@ -43,6 +43,12 @@ my %stop = (
 	的 裡 和 與 及 年 月 日 時 分 秒 可 對 於 但 也 且 或 中 而 為 叫
     )
 );
+
+=head1 METHODS
+
+=head2 new
+
+=cut
 
 sub new {
     my $class = shift;
@@ -71,7 +77,6 @@ sub summary {
     my $self = shift;
     my ($text, %options) = @_;
 
-    # Run each filter over the text.
     return unless $text;
 
     # Strip whitespace and formatting out of the text.
@@ -83,12 +88,10 @@ sub summary {
 	$options{maxlength} = log(length($text)) * 15;
     }
 
-    ### Here's where the interesting logic happens.
-
     my $re = "(".join ("|",keys %punct).")";
     my @textlines = split /$re/,$text;
 
-    # First we break it into sentence pieces. Kind of. Sort of.
+    # First we get the meaningful terms with respect to their term frequency
 
     my $summary = '';
     my $flag = 1;
@@ -126,7 +129,7 @@ L<Lingua::ZH::Toke>, L<Lingua::ZH::Wrap>, L<Lingua::EN::Summary>
 
 =head1 AUTHOR
 
-Cheng-Lung Sung, C<< <clsung at FreeBSD.org> >>
+Cheng-Lung Sung, C<< <clsung at cpan.org> >>
 
 =head1 BUGS
 
@@ -166,12 +169,12 @@ L<http://search.cpan.org/dist/Lingua-ZH-Summary>
 
 =head1 ACKNOWLEDGEMENTS
 
-Reference to the L<Lingua::ZH::Summary> module from
+Reference to the L<Lingua::ZH::Summarize> module from
 Audrey Tang E<lt>cpan@audreyt.orgE<gt>.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2007 Cheng-Lung Sung, all rights reserved.
+Copyright 2007-2009 Cheng-Lung Sung, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
